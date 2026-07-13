@@ -300,7 +300,7 @@ Please ensure that changes include appropriate tests.
 
 This project is released under the:
 
-**GPL-2.0-only License**
+**MIT license**
 
 See the `LICENSE` file for more information.
 
