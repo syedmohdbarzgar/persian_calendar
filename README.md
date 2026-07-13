@@ -1,3 +1,5 @@
+[![pub version](https://img.shields.io/pub/v/persian_calendar.svg)](https://pub.dev/packages/persian_calendar)
+
 # 📅 کتابخانه‌ی تقویم فارسی (Dart)
 
 یک کتابخانه‌ی کامل و دقیق برای تبدیل و محاسبه‌ی تقویم‌های مختلف در زبان Dart. این کتابخانه از روی نسخه‌ی [persian-calendar/calendar](https://github.com/persian-calendar/calendar) که به زبان کاتلین نوشته شده، به دارت منتقل شده است.
