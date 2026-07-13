@@ -1,7 +1,9 @@
 name: persian_calendar
 description: A complete Persian calendar library for Dart, supporting Jalali, Gregorian, Islamic, and Nepali calendars.
 version: 1405.04.22
-# repository: https://github.com/my_org/my_repo
+homepage: https://github.com/syedmohdbarzgar/persian_calendar
+repository: https://github.com/syedmohdbarzgar/persian_calendar
+issue_tracker: https://github.com/syedmohdbarzgar/persian_calendar/issues
 
 environment:
   sdk: ^3.12.2
