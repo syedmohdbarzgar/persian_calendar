@@ -1,32 +1,52 @@
-# 📅 کتابخانه‌ی تقویم فارسی (Dart)
+# Persian Calendar for Dart
 
-یک کتابخانه‌ی کامل و دقیق برای تبدیل و محاسبه‌ی تقویم‌های مختلف در زبان Dart. این کتابخانه از روی نسخه‌ی [persian-calendar/calendar](https://github.com/persian-calendar/calendar) که به زبان کاتلین نوشته شده، به دارت منتقل شده است.
+A powerful Dart library for working with multiple calendar systems, including Persian (Jalali), Gregorian, Islamic (Hijri), and Nepali (Bikram Sambat) calendars.
 
----
-
-## ✨ چه تقویم‌هایی را پشتیبانی می‌کند؟
-
-- **تقویم شمسی (جلالی / خورشیدی)** – همان تقویم رسمی ایران و افغانستان
-- **تقویم میلادی (گریگوری)** – تقویم رسمی بیشتر کشورهای جهان
-- **تقویم قمری (هجری)** – با دو روش محاسبه: جدول ایرانی و ام‌القرا
-- **تقویم نپالی (بیکرام سامبت)** – تقویم رسمی نپال
-
-همه‌ی این تقویم‌ها با استفاده از **عدد ژولیانی (JDN)** به هم تبدیل می‌شوند. عدد ژولیانی یعنی تعداد روزهایی که از یک نقطه‌ی مشخص در گذشته گذشته است.
+This library provides accurate date conversion and calendar calculations using Julian Day Number (JDN) as the common conversion layer between calendar systems.
 
 ---
 
-## 📦 نصب
+## Features
 
-فایل `pubspec.yaml` را باز کنید و این خط را به قسمت `dependencies` اضافه کنید:
+* ✅ Persian (Jalali / Solar Hijri) calendar support
+* ✅ Gregorian calendar support
+* ✅ Islamic (Hijri) calendar support
+
+  * Umm al-Qura calculation method
+  * Iranian tabular calculation method
+* ✅ Nepali (Bikram Sambat) calendar support
+* ✅ Conversion between different calendar systems
+* ✅ Julian Day Number (JDN) based calculations
+* ✅ Date comparison and distance calculations
+* ✅ Month-based date operations
+* ✅ Pure Dart implementation
+* ✅ Tested conversion algorithms
+
+---
+
+## Supported Calendars
+
+| Calendar      | Description                             |
+| ------------- | --------------------------------------- |
+| `PersianDate` | Persian / Jalali / Solar Hijri calendar |
+| `CivilDate`   | Gregorian calendar                      |
+| `IslamicDate` | Islamic / Hijri calendar                |
+| `NepaliDate`  | Nepali Bikram Sambat calendar           |
+
+---
+
+## Installation
+
+Add the package to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
   persian_calendar:
     git:
-      url: https://github.com/your-username/persian_calendar.git
+      url: https://github.com/syedmohdbarzgar/persian_calendar.git
 ```
 
-بعد دستور زیر را اجرا کنید:
+Then run:
 
 ```bash
 dart pub get
@@ -34,92 +54,208 @@ dart pub get
 
 ---
 
-## 🚀 شروع سریع
+## Quick Start
 
-### ۱. گرفتن تاریخ امروز از سیستم و تبدیل به عدد ژولیانی
+### Import the library
 
 ```dart
 import 'package:persian_calendar/persian_calendar.dart';
+```
 
+---
+
+## Working with Gregorian Dates
+
+```dart
 void main() {
-  // گرفتن تاریخ امروز از سیستم
-  final now = DateTime.now();
-  final civilToday = CivilDate(now.year, now.month, now.day);
-  
-  // تبدیل به عدد ژولیانی
-  final jdnToday = civilToday.toJdn();
-  print('عدد ژولیانی امروز: $jdnToday');
+  final today = DateTime.now();
+
+  final civilDate = CivilDate(
+    today.year,
+    today.month,
+    today.day,
+  );
+
+  print(civilDate);
 }
 ```
 
-### ۲. تبدیل عدد ژولیانی به تقویم‌های مختلف
+---
+
+## Convert Gregorian Date to Julian Day Number
 
 ```dart
-// تبدیل به شمسی
-final persian = PersianDate.fromJdn(jdnToday);
-print('تاریخ شمسی امروز: $persian');
+final civilDate = CivilDate(2025, 3, 21);
 
-// تبدیل به قمری
-final islamic = IslamicDate.fromJdn(jdnToday);
-print('تاریخ قمری امروز: $islamic');
+final jdn = civilDate.toJdn();
 
-// تبدیل به نپالی
-final nepali = NepaliDate.fromJdn(jdnToday);
-print('تاریخ نپالی امروز: $nepali');
-```
-
-### ۳. تبدیل مستقیم بین تقویم‌ها
-
-```dart
-// از شمسی به میلادی
-final persianNow = PersianDate(1404, 1, 1);
-final civilEquivalent = CivilDate.fromDate(persianNow);
-print('معادل میلادی: $civilEquivalent');
-
-// از میلادی به شمسی
-final civilNow = CivilDate(2025, 3, 21);
-final persianEquivalent = PersianDate.fromDate(civilNow);
-print('معادل شمسی: $persianEquivalent');
-```
-
-### ۴. محاسبه‌ی فاصله‌ی ماه‌ها بین دو تاریخ
-
-```dart
-final start = PersianDate(1404, 1, 1);  // اول فروردین ۱۴۰۴
-final end = PersianDate(1405, 1, 1);    // اول فروردین ۱۴۰۵
-final monthsDiff = start.monthsDistanceTo(end);
-print('فاصله: $monthsDiff ماه');  // خروجی: ۱۲
-```
-
-### ۵. پیدا کردن شروع ماه بعد از چند ماه
-
-```dart
-final start = PersianDate(1404, 1, 15);
-final monthStart = start.monthStartOfMonthsDistance(3);
-print('شروع ماه سوم بعد: $monthStart');  // ۱۴۰۴/۴/۱
+print(jdn);
 ```
 
 ---
 
-## 🔧 تنظیمات تقویم قمری
-
-تقویم قمری دو حالت دارد که می‌توانید انتخاب کنید:
+## Convert JDN to Different Calendars
 
 ```dart
-// حالت ام‌القرا (پیش‌فرض)
+final persian = PersianDate.fromJdn(jdn);
+final islamic = IslamicDate.fromJdn(jdn);
+final nepali = NepaliDate.fromJdn(jdn);
+
+print(persian);
+print(islamic);
+print(nepali);
+```
+
+---
+
+## Convert Between Calendars
+
+### Persian to Gregorian
+
+```dart
+final persianDate = PersianDate(1404, 1, 1);
+
+final gregorianDate = CivilDate.fromDate(
+  persianDate,
+);
+
+print(gregorianDate);
+```
+
+### Gregorian to Persian
+
+```dart
+final civilDate = CivilDate(2025, 3, 21);
+
+final persianDate = PersianDate.fromDate(
+  civilDate,
+);
+
+print(persianDate);
+```
+
+---
+
+## Date Calculations
+
+### Calculate Month Distance
+
+```dart
+final start = PersianDate(1404, 1, 1);
+final end = PersianDate(1405, 1, 1);
+
+final difference = start.monthsDistanceTo(end);
+
+print(difference);
+```
+
+Output:
+
+```
+12
+```
+
+---
+
+### Find Date After Several Months
+
+```dart
+final date = PersianDate(1404, 1, 15);
+
+final result = date.monthStartOfMonthsDistance(3);
+
+print(result);
+```
+
+---
+
+# Islamic Calendar Configuration
+
+The Islamic calendar supports two calculation modes.
+
+## Umm al-Qura Mode (Default)
+
+```dart
 IslamicDate.useUmmAlQura = true;
-final islamic1 = IslamicDate.fromJdn(jdnToday);
 
-// حالت جدول ایرانی
+final date = IslamicDate.fromJdn(jdn);
+```
+
+## Iranian Tabular Mode
+
+```dart
 IslamicDate.useUmmAlQura = false;
-final islamic2 = IslamicDate.fromJdn(jdnToday);
+
+final date = IslamicDate.fromJdn(jdn);
 ```
 
 ---
 
-## 🧪 اجرای تست‌ها
+# Architecture
 
-برای اطمینان از درست کار کردن کتابخانه، تست‌هایی نوشته شده است. برای اجرای آنها:
+The library uses a common abstract date model where each calendar implementation converts through Julian Day Number.
+
+```
+AbstractDate
+     |
+     ├── CivilDate
+     |
+     ├── PersianDate
+     |
+     ├── IslamicDate
+     |
+     └── NepaliDate
+```
+
+This design allows calendar conversions without directly coupling calendar implementations.
+
+---
+
+# API Overview
+
+| Class           | Description                          |
+| --------------- | ------------------------------------ |
+| `AbstractDate`  | Base abstraction for calendar dates  |
+| `CivilDate`     | Gregorian date implementation        |
+| `PersianDate`   | Persian/Jalali date implementation   |
+| `IslamicDate`   | Islamic/Hijri date implementation    |
+| `NepaliDate`    | Nepali calendar implementation       |
+| `YearMonthDate` | Interface for month-based operations |
+
+---
+
+# Project Structure
+
+```
+lib/
+├── persian_calendar.dart
+│
+└── src/
+    ├── calendar/
+    │   ├── abstract_date.dart
+    │   ├── civil_date.dart
+    │   ├── persian_date.dart
+    │   ├── islamic_date.dart
+    │   ├── nepali_date.dart
+    │   └── year_month_date.dart
+    │
+    └── util/
+        └── calendar conversion utilities
+
+test/
+└── calendar_test.dart
+
+example/
+└── usage_example.dart
+```
+
+---
+
+# Testing
+
+The project includes tests to verify calendar calculations and conversions.
+
+Run tests with:
 
 ```bash
 dart test
@@ -127,59 +263,53 @@ dart test
 
 ---
 
-## 📂 ساختار پروژه
+# Supported Date Range
 
-```
-lib/
-├── persian_calendar.dart          # فایل اصلی (همه‌ی کلاس‌ها از اینجا در دسترس است)
-├── src/
-│   ├── calendar/
-│   │   ├── abstract_date.dart     # کلاس پایه
-│   │   ├── civil_date.dart        # تاریخ میلادی
-│   │   ├── persian_date.dart      # تاریخ شمسی
-│   │   ├── islamic_date.dart      # تاریخ قمری
-│   │   ├── nepali_date.dart       # تاریخ نپالی
-│   │   └── year_month_date.dart   # رابط (interface) برای عملیات ماه
-│   └── util/                      # فرمول‌های اصلی تبدیل
-test/
-└── calendar_test.dart              # تست‌ها
-example/
-└── usage_example.dart              # مثال کامل
-```
+* Persian and Gregorian calendars support a wide range of dates.
+* Nepali calendar support covers years from 1975 to 2199 Gregorian.
 
 ---
 
-## ❓ سوالات متداول
+# References
 
-**۱. آیا این کتابخانه با نسخه‌ی کاتلین فرق دارد؟**  
-از نظر محاسبات و نتیجه‌ی نهایی هیچ فرقی ندارد. فقط کد به گونه‌ای بازنویسی شده که با قوانین زبان دارت هماهنگ باشد.
+This project is based on the original Kotlin implementation:
 
-**۲. عدد ژولیانی دقیقاً چیست؟**  
-یک عدد است که تعداد روزهای گذشته از یک مبدأ مشخص را نشان می‌دهد. دانشمندان و برنامه‌نویسان از آن برای تبدیل دقیق تاریخ‌ها استفاده می‌کنند.
+* Persian Calendar Kotlin Library
+  https://github.com/persian-calendar/calendar
 
-**۳. محدوده‌ی سال‌های پشتیبانی شده چقدر است؟**  
-- تقویم شمسی و میلادی محدودیت خاصی ندارند  
-- تقویم نپالی از سال ۱۹۷۵ تا ۲۱۹۹ میلادی را پشتیبانی می‌کند  
+The conversion approach is based on Julian Day Number calculations, a standard method used for astronomical and calendar computations.
 
 ---
 
-## 📄 مجوز
+# Contributing
 
-این کتابخانه تحت مجوز **GPL-2.0-only** منتشر شده است.
+Contributions are welcome.
 
----
+You can help by:
 
-## 🤝 مشارکت
+* Reporting bugs
+* Suggesting improvements
+* Opening issues
+* Creating pull requests
 
-اگر مشکل یا پیشنهادی دارید، خوشحال می‌شویم که Issue یا Pull Request شما را ببینیم.
-
----
-
-## 🌐 منبع اصلی
-
-نسخه‌ی اصلی این کتابخانه به زبان کاتلین در این آدرس قرار دارد:  
-[https://github.com/persian-calendar/calendar](https://github.com/persian-calendar/calendar)
+Please ensure that changes include appropriate tests.
 
 ---
 
-**اگر از این کتابخانه استفاده می‌کنید، خوشحال می‌شویم که به ما ⭐ دهید!**
+# License
+
+This project is released under the:
+
+**GPL-2.0-only License**
+
+See the `LICENSE` file for more information.
+
+---
+
+# Acknowledgements
+
+Special thanks to the original Kotlin implementation:
+
+https://github.com/persian-calendar/calendar
+
+for providing the foundation and algorithms used in this Dart port.
